@@ -1,7 +1,7 @@
 [project]
 name = "openworldsandbox"
 version = "0.1.0"
-description = "OpenWorldSandbox — Data-driven embodied agent sandbox"
+description = "OpenWorldSandbox — embodied scene sandbox for household and retail worlds"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

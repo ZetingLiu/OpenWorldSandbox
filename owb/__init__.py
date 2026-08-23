@@ -1,1 +1,1 @@
-# OpenWorldSandbox — data-driven embodied agent sandbox
+# OpenWorldSandbox — embodied scene sandbox for household and retail worlds

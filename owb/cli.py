@@ -114,7 +114,7 @@ def main():
     commands = _build_commands()
     command_path, config = parse_args_with_commands(
         commands,
-        description="OpenWorldSandbox — Data-driven embodied agent sandbox",
+        description="OpenWorldSandbox — embodied scene sandbox for household and retail worlds",
     )
 
     module_name = DISPATCH.get(command_path)

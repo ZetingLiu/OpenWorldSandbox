@@ -4,15 +4,17 @@
 
 # OpenWorldSandbox
 
-An embodied agent **sandbox** for model **reasoning** in real-world service scenarios.
+An **embodied scene sandbox**: data-driven household and retail worlds that agents can explore, act in, and debug.
 
 [中文说明](README_zh.md)
 
 ## Overview
 
-OpenWorldSandbox evaluates whether vision-language models acting as an **embodied brain** can complete full business tasks through **multi-turn high-level semantic tool calls** under **partial observability**. Each turn, the model outputs one structured action from the task instruction, current observation, and interaction history. The environment keeps hidden world state in SQLite, returns state changes and structured failure reasons after each action, and scores runs with a **goal DSL** plus **full trajectory diagnostics**.
+OpenWorldSandbox is a **sandbox for embodied scenes**, not a joint-level simulator. You author a scene and a task as JSON; the sandbox compiles them into a SQLite world snapshot and exposes a fixed set of **high-level semantic actions** (navigate, pick-and-place, containers, devices, dual-hand state). Hidden world state stays in the database. Each action returns state changes and structured failure reasons under **partial observability**.
 
-Phase 1 targets **home service** and **retail service** scenarios: navigation, pick-and-place, containers and devices, dual-hand state, and multi-step planning. It does **not** evaluate joint control or low-level motion planning.
+You can drive a scene by hand (`owb sandbox`), serve it over HTTP/MCP (`owb env start`), or plug in a vision-language model as an embodied brain (`owb run`). Optional **goal DSL** checks and trajectory diagnostics tell you whether a run finished the task; they are tools around the sandbox, not the product itself.
+
+Phase 1 ships **home service** and **retail service** scenes. It does **not** model joint control or low-level motion planning.
 
 ## Pipeline
 
@@ -138,4 +140,4 @@ owb compile --batch true \
 
 ## Repository status
 
-Forked from [agent-world-model](https://github.com/Snowflake-Labs/agent-world-model) and refactored into the `owb` package. Scenario and task JSON specs are **frozen at v0.1**.
+Forked from [agent-world-model](https://github.com/Snowflake-Labs/agent-world-model) and refactored into the `owb` package as an embodied scene sandbox. Scenario and task JSON specs are **frozen at v0.1**.

@@ -63,7 +63,7 @@ def create_app(db_path: str) -> FastAPI:
 
     app = FastAPI(
         title="OpenWorldSandbox Environment",
-        description="Data-driven embodied agent sandbox environment with 17 semantic actions",
+        description="Embodied scene sandbox with 17 semantic actions",
         version="0.1.0",
     )
 
