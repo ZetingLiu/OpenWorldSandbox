@@ -210,7 +210,7 @@ def _format_markdown(
     by_cap: dict[str, dict],
     overall_stats: dict,
 ) -> str:
-    lines: list[str] = ["# OpenWorldBench Results", ""]
+    lines: list[str] = ["# OpenWorldSandbox Results", ""]
 
     lines += ["## Overall", "",
               "| runs | success_rate | mean_spl | mean_step_ratio |",

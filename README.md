@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="figures/owb.png" alt="OpenWorldBench" width="420"/>
+  <img src="figures/owb.png" alt="OpenWorldSandbox" width="420"/>
 </p>
 
-# OpenWorldBench
+# OpenWorldSandbox
 
-A benchmark for embodied model **reasoning** in real-world service scenarios.
+An embodied agent **sandbox** for model **reasoning** in real-world service scenarios.
 
 [中文说明](README_zh.md)
 
 ## Overview
 
-OpenWorldBench evaluates whether vision-language models acting as an **embodied brain** can complete full business tasks through **multi-turn high-level semantic tool calls** under **partial observability**. Each turn, the model outputs one structured action from the task instruction, current observation, and interaction history. The environment keeps hidden world state in SQLite, returns state changes and structured failure reasons after each action, and scores runs with a **goal DSL** plus **full trajectory diagnostics**.
+OpenWorldSandbox evaluates whether vision-language models acting as an **embodied brain** can complete full business tasks through **multi-turn high-level semantic tool calls** under **partial observability**. Each turn, the model outputs one structured action from the task instruction, current observation, and interaction history. The environment keeps hidden world state in SQLite, returns state changes and structured failure reasons after each action, and scores runs with a **goal DSL** plus **full trajectory diagnostics**.
 
 Phase 1 targets **home service** and **retail service** scenarios: navigation, pick-and-place, containers and devices, dual-hand state, and multi-step planning. It does **not** evaluate joint control or low-level motion planning.
 
@@ -35,8 +35,8 @@ Scenario/task JSON → compile → SQLite initial snapshot → MCP env (17 seman
 Requires **Python ≥ 3.11**.
 
 ```bash
-git clone <repo-url> OpenWorldBench
-cd OpenWorldBench
+git clone https://github.com/ZetingLiu/OpenWorldSandbox.git
+cd OpenWorldSandbox
 
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate

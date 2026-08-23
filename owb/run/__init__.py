@@ -1,1 +1,1 @@
-# OpenWorldBench — agent runner and trajectory recording
+# OpenWorldSandbox — agent runner and trajectory recording

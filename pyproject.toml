@@ -1,7 +1,7 @@
 [project]
-name = "openworldbench"
+name = "openworldsandbox"
 version = "0.1.0"
-description = "OpenWorldBench — Data-driven embodied agent benchmark"
+description = "OpenWorldSandbox — Data-driven embodied agent sandbox"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

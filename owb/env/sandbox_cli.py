@@ -1,4 +1,4 @@
-"""Interactive sandbox REPL for OpenWorldBench.
+"""Interactive sandbox REPL for OpenWorldSandbox.
 
 Usage:  owb sandbox --db_path outputs/compiled/home_01_umbrella_move.db
 
@@ -159,7 +159,7 @@ def run_sandbox(config: SandboxConfig) -> None:
     ws = WorldState(work_db)
 
     print("=" * 60)
-    print("OpenWorldBench Interactive Sandbox")
+    print("OpenWorldSandbox Interactive Sandbox")
     print("=" * 60)
     if meta:
         print(f"Task:  {meta['name']} ({meta['task_id']})")

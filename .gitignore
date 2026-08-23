@@ -3,6 +3,7 @@
 venv/
 .env
 .cursor/
+.teach/
 
 # Python
 __pycache__/

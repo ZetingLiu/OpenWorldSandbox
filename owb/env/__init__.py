@@ -1,1 +1,1 @@
-# OpenWorldBench — environment: world state, actions, compile, observe, server
+# OpenWorldSandbox — environment: world state, actions, compile, observe, server

@@ -1,4 +1,4 @@
-"""OpenWorldBench CLI.
+"""OpenWorldSandbox CLI.
 
 Commands:
     owb compile   — validate scenario+task JSON, compile to SQLite, replay walkthroughs
@@ -114,7 +114,7 @@ def main():
     commands = _build_commands()
     command_path, config = parse_args_with_commands(
         commands,
-        description="OpenWorldBench — Data-driven embodied agent benchmark",
+        description="OpenWorldSandbox — Data-driven embodied agent sandbox",
     )
 
     module_name = DISPATCH.get(command_path)

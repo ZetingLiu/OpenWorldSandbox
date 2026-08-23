@@ -1,1 +1,1 @@
-# OpenWorldBench — data-driven embodied agent benchmark
+# OpenWorldSandbox — data-driven embodied agent sandbox

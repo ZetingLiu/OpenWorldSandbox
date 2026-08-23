@@ -62,8 +62,8 @@ def create_app(db_path: str) -> FastAPI:
     judge = CommonsenseJudge(db_path)
 
     app = FastAPI(
-        title="OpenWorldBench Environment",
-        description="Data-driven embodied agent benchmark environment with 17 semantic actions",
+        title="OpenWorldSandbox Environment",
+        description="Data-driven embodied agent sandbox environment with 17 semantic actions",
         version="0.1.0",
     )
 
@@ -260,7 +260,7 @@ def run_server(config: ServerConfig) -> None:
     import uvicorn
 
     app = create_app(config.db_path)
-    logger.info(f"Starting OpenWorldBench environment server on {config.host}:{config.port}")
+    logger.info(f"Starting OpenWorldSandbox environment server on {config.host}:{config.port}")
     logger.info(f"Database: {config.db_path}")
     logger.info(f"MCP endpoint: http://{config.host}:{config.port}/mcp")
 

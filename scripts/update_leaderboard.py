@@ -184,8 +184,8 @@ def main() -> None:
     )
     assert isinstance(detail, str)
     detail = detail.replace(
-        "# OpenWorldBench Results",
-        f"# OpenWorldBench Results\n\nLatest run: **{args.model}**, "
+        "# OpenWorldSandbox Results",
+        f"# OpenWorldSandbox Results\n\nLatest run: **{args.model}**, "
         f"{date.today().isoformat()}. Cross-model standings are in the "
         f"[Leaderboard](#leaderboard) at the end of this file.",
         1,

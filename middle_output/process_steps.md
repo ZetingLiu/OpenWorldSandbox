@@ -31,6 +31,6 @@
 
 - `trajectory.json`：完整结构化轨迹，包含每轮 `reasoning_content`、模型回复、工具调用和环境返回。
 - `run.log`：便于阅读的运行日志。
-- `verify.log`：OpenWorldBench 独立评分结果。
+- `verify.log`：OpenWorldSandbox 独立评分结果。
 - `report.json`：完整运行报告。
 - `final.db`：任务结束时的世界状态数据库。

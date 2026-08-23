@@ -1,1 +1,1 @@
-# OpenWorldBench — evaluation: DSL verifier, diagnostics, reports
+# OpenWorldSandbox — evaluation: DSL verifier, diagnostics, reports

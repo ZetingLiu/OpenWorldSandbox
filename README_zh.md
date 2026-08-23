@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="figures/owb.png" alt="OpenWorldBench" width="420"/>
+  <img src="figures/owb.png" alt="OpenWorldSandbox" width="420"/>
 </p>
 
-# OpenWorldBench
+# OpenWorldSandbox
 
-面向真实业务场景的具身模型 **reasoning** 能力评测基准。
+面向真实业务场景的具身智能体 **sandbox**，用于评测模型 **reasoning** 能力。
 
 [English](README.md)
 
 ## 概述
 
-OpenWorldBench 评测视觉语言模型作为「具身大脑」时，能否在**部分可观测**环境中通过**多轮高层语义工具调用**完成完整业务任务。模型每轮根据任务指令、当前观测与历史反馈输出一个结构化动作；环境以 SQLite 维护隐藏世界状态，执行后返回状态变化与失败原因；最终依据**任务目标 DSL** 与**完整执行轨迹**进行程序化判定与能力诊断。
+OpenWorldSandbox 评测视觉语言模型作为「具身大脑」时，能否在**部分可观测**环境中通过**多轮高层语义工具调用**完成完整业务任务。模型每轮根据任务指令、当前观测与历史反馈输出一个结构化动作；环境以 SQLite 维护隐藏世界状态，执行后返回状态变化与失败原因；最终依据**任务目标 DSL** 与**完整执行轨迹**进行程序化判定与能力诊断。
 
 首期聚焦**家庭服务**与**商超服务**，覆盖导航、取放、容器与设备操作、双手状态维护、多步规划等；**不**评测关节控制或底层轨迹生成。
 
@@ -35,8 +35,8 @@ OpenWorldBench 评测视觉语言模型作为「具身大脑」时，能否在**
 需要 **Python ≥ 3.11**。
 
 ```bash
-git clone <repo-url> OpenWorldBench
-cd OpenWorldBench
+git clone https://github.com/ZetingLiu/OpenWorldSandbox.git
+cd OpenWorldSandbox
 
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
