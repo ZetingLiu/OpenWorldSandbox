@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="figures/owb.png" alt="OpenWorldSandbox" width="420"/>
-</p>
 
 # OpenWorldSandbox
 
