@@ -23,7 +23,7 @@ from typing import Any
 PROJECT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT))
 
-from owb.eval.report import ReportConfig, generate_report  # noqa: E402
+from ows.eval.report import ReportConfig, generate_report  # noqa: E402
 
 
 METRIC_GLOSSARY = """\
@@ -174,7 +174,7 @@ def main() -> None:
     if metrics["runs"] == 0:
         raise SystemExit(
             f"No verified runs under {input_dir} — refusing to write an empty row. "
-            f"Run `owb verify` on each run directory first."
+            f"Run `ows verify` on each run directory first."
         )
 
     entries = upsert(board_path, args.model, metrics, args.note)

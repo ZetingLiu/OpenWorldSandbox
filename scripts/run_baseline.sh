@@ -53,7 +53,7 @@ mkdir -p "$OUTDIR"
 # ── 1. Compile ──────────────────────────────────────────────────────
 echo "=== Compiling all tasks ==="
 rm -rf outputs/compiled
-python -m owb.env.compile --batch true \
+python -m ows.env.compile --batch true \
     --scenarios_dir data/scenarios \
     --tasks_dir data/tasks \
     --output_dir outputs/compiled > /dev/null
@@ -74,7 +74,7 @@ for task in "${TASKS[@]}"; do
     db="outputs/compiled/${task}.db"
     for i in $(seq 1 "$RUNS"); do
         echo -n "  [$i/$RUNS] "
-        python -m owb.run.runner \
+        python -m ows.run.runner \
             --db_path "$db" \
             --output_dir "$OUTDIR" \
             > "$OUTDIR/${task}_run${i}.log" 2>&1 && echo "OK" || echo "FAILED (see log)"
@@ -85,7 +85,7 @@ done
 # ── 3. Verify all runs ──────────────────────────────────────────────
 echo "=== Verifying all runs ==="
 for rundir in "$OUTDIR"/*/; do
-    python -m owb.eval.verify --input_dir "$rundir" --tasks_dir data/tasks 2>&1 | tail -1
+    python -m ows.eval.verify --input_dir "$rundir" --tasks_dir data/tasks 2>&1 | tail -1
 done
 echo ""
 

@@ -7,9 +7,9 @@ import sys
 import tempfile
 from pathlib import Path
 
-from owb.env.actions import execute_action
-from owb.env.observe import generate_observation
-from owb.env.world import WorldState
+from ows.env.actions import execute_action
+from ows.env.observe import generate_observation
+from ows.env.world import WorldState
 
 
 def main() -> None:

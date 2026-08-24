@@ -1,4 +1,3 @@
-
 # OpenWorldSandbox
 
 An **embodied scene sandbox**: data-driven household and retail worlds that agents can explore, act in, and debug.
@@ -9,7 +8,7 @@ An **embodied scene sandbox**: data-driven household and retail worlds that agen
 
 OpenWorldSandbox is a **sandbox for embodied scenes**, not a joint-level simulator. You author a scene and a task as JSON; the sandbox compiles them into a SQLite world snapshot and exposes a fixed set of **high-level semantic actions** (navigate, pick-and-place, containers, devices, dual-hand state). Hidden world state stays in the database. Each action returns state changes and structured failure reasons under **partial observability**.
 
-You can drive a scene by hand (`owb sandbox`), serve it over HTTP/MCP (`owb env start`), or plug in a vision-language model as an embodied brain (`owb run`). Optional **goal DSL** checks and trajectory diagnostics tell you whether a run finished the task; they are tools around the sandbox, not the product itself.
+You can drive a scene by hand (`ows sandbox`), serve it over HTTP/MCP (`ows env start`), or plug in a vision-language model as an embodied brain (`ows run`). Optional **goal DSL** checks and trajectory diagnostics tell you whether a run finished the task; they are tools around the sandbox, not the product itself.
 
 Phase 1 ships **home service** and **retail service** scenes. It does **not** model joint control or low-level motion planning.
 
@@ -22,12 +21,12 @@ Scenario/task JSON → compile → SQLite initial snapshot → MCP env (17 seman
 
 | Stage | Command | Module |
 |-------|---------|--------|
-| Compile | `owb compile` | `owb/env/compile.py` |
-| Environment | `owb env start` | `owb/env/server.py` |
-| Sandbox REPL | `owb sandbox` | `owb/env/sandbox_cli.py` |
-| Agent run | `owb run` | `owb/run/` |
-| Verify | `owb verify` | `owb/eval/verify.py` |
-| Report | `owb report` | `owb/eval/report.py` |
+| Compile | `ows compile` | `ows/env/compile.py` |
+| Environment | `ows env start` | `ows/env/server.py` |
+| Sandbox REPL | `ows sandbox` | `ows/env/sandbox_cli.py` |
+| Agent run | `ows run` | `ows/run/` |
+| Verify | `ows verify` | `ows/eval/verify.py` |
+| Report | `ows report` | `ows/eval/report.py` |
 
 ## Setup
 
@@ -52,7 +51,7 @@ Optional extras:
 
 ### LLM credentials (`.env`)
 
-`owb run` reads an OpenAI-compatible API from environment variables. Copy the template and edit **only** `.env` (it is gitignored; never put real keys in `.env.template`):
+`ows run` reads an OpenAI-compatible API from environment variables. Copy the template and edit **only** `.env` (it is gitignored; never put real keys in `.env.template`):
 
 ```bash
 cp .env.template .env
@@ -80,8 +79,8 @@ AWM_SYN_OVERRIDE_MODEL=<deployment-name>
 
 Notes:
 
-- `owb` calls `load_dotenv()` on startup and walks **upward** from the current working directory, so a repo-root `.env` is found even when you invoke `owb` from a subdirectory.
-- You can override URL / model per run with CLI flags: `owb run --api_url ... --model ...`.
+- `ows` calls `load_dotenv()` on startup and walks **upward** from the current working directory, so a repo-root `.env` is found even when you invoke `ows` from a subdirectory.
+- You can override URL / model per run with CLI flags: `ows run --api_url ... --model ...`.
 - Offline steps (`compile`, `sandbox`, `verify`, `report`) do **not** need an API key.
 
 ## Quickstart
@@ -89,28 +88,28 @@ Notes:
 Compile one task, then either drive it by hand or run a model:
 
 ```bash
-owb compile \
+ows compile \
   --scenario data/scenarios/home_01.json \
   --task data/tasks/home/home_01_umbrella_move.json \
   --output_dir outputs/compiled
 
 # Interactive REPL (no LLM) — best for demos / debugging walkthroughs
-owb sandbox --db_path outputs/compiled/home_01_umbrella_move.db
+ows sandbox --db_path outputs/compiled/home_01_umbrella_move.db
 
 # Or start the HTTP env and run an agent (needs .env)
-owb env start \
+ows env start \
   --db_path outputs/compiled/home_01_umbrella_move.db \
   --port 8001
 
-owb run --db_path outputs/compiled/home_01_umbrella_move.db
-owb verify --input_dir outputs/runs/<run_dir>
-owb report --input_dir outputs/runs --format markdown
+ows run --db_path outputs/compiled/home_01_umbrella_move.db
+ows verify --input_dir outputs/runs/<run_dir>
+ows report --input_dir outputs/runs --format markdown
 ```
 
 Batch compile all tasks:
 
 ```bash
-owb compile --batch true \
+ows compile --batch true \
   --scenarios_dir data/scenarios \
   --tasks_dir data/tasks \
   --output_dir outputs/compiled
@@ -129,12 +128,12 @@ owb compile --batch true \
 
 | Path | Description |
 |------|-------------|
-| `owb/schema/` | Scenario/task Pydantic models + goal DSL |
-| `owb/env/` | World state, actions, observe, compile, MCP server, sandbox REPL |
-| `owb/run/` | Agent loop + task runner |
-| `owb/eval/` | Verify / diagnose / report |
-| `owb/synth/` | Legacy LLM synthesis pipeline (optional) |
+| `ows/schema/` | Scenario/task Pydantic models + goal DSL |
+| `ows/env/` | World state, actions, observe, compile, MCP server, sandbox REPL |
+| `ows/run/` | Agent loop + task runner |
+| `ows/eval/` | Verify / diagnose / report |
+| `ows/synth/` | Legacy LLM synthesis pipeline (optional) |
 
 ## Repository status
 
-Forked from [agent-world-model](https://github.com/Snowflake-Labs/agent-world-model) and refactored into the `owb` package as an embodied scene sandbox. Scenario and task JSON specs are **frozen at v0.1**.
+Forked from [agent-world-model](https://github.com/Snowflake-Labs/agent-world-model) and refactored into the `ows` package as an embodied scene sandbox. Scenario and task JSON specs are **frozen at v0.1**.

@@ -42,7 +42,7 @@ async def main():
 
     # ── Start server ────────────────────────────────────────────
     port = 18765
-    cmd = [sys.executable, "-m", "owb.env.server", str(run_dir / "working.db"), str(port)]
+    cmd = [sys.executable, "-m", "ows.env.server", str(run_dir / "working.db"), str(port)]
     log_f = open(run_dir / "server.log", "w")
     proc = subprocess.Popen(cmd, stdout=log_f, stderr=subprocess.STDOUT)
     print(f"Server PID={proc.pid} on :{port}")
@@ -70,7 +70,7 @@ async def main():
 
     # ── Run agent ───────────────────────────────────────────────
     try:
-        from owb.run.agent import AgentConfig, run_agent
+        from ows.run.agent import AgentConfig, run_agent
 
         cfg = AgentConfig(
             task=meta["instruction"],
@@ -114,7 +114,7 @@ async def main():
     print(f"Tool calls: {json.dumps(last_actions)}")
 
     # Run verifier
-    from owb.eval.verify import VerifyConfig, verify_run
+    from ows.eval.verify import VerifyConfig, verify_run
 
     vcfg = VerifyConfig(
         input_dir=str(run_dir),
@@ -126,7 +126,7 @@ async def main():
     print(f"Subgoals: {json.dumps(result['subgoals'], ensure_ascii=False)}")
 
     # ── Run diagnostics ─────────────────────────────────────────
-    from owb.eval.diagnose import DiagnoseConfig, diagnose_trajectory
+    from ows.eval.diagnose import DiagnoseConfig, diagnose_trajectory
 
     dcfg = DiagnoseConfig(input_dir=str(run_dir))
     diag = diagnose_trajectory(dcfg)

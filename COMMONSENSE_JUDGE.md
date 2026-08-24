@@ -50,8 +50,8 @@ Rejected actions:
 
 ## Implementation
 
-- `owb/env/commonsense_judge.py`: state summarization, prompt, API call,
+- `ows/env/commonsense_judge.py`: state summarization, prompt, API call,
   response parsing, and JSONL audit log.
-- `owb/env/server.py`: pre-transition judge gate.
-- `owb/eval/verify.py`: replay only actions whose recorded tool response was
+- `ows/env/server.py`: pre-transition judge gate.
+- `ows/eval/verify.py`: replay only actions whose recorded tool response was
   successful.
