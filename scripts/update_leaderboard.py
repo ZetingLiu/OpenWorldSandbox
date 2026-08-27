@@ -62,7 +62,8 @@ def collect_metrics(input_dir: Path, tasks_dir: Path) -> dict[str, Any]:
     }
 
 
-def upsert(board_path: Path, model: str, metrics: dict, note: str = "") -> list[dict]:
+def upsert(board_path: Path, model: str, metrics: dict, note: str = "",
+           date_str: str | None = None) -> list[dict]:
     """Replace this model's entry (or add it) and return the sorted standings."""
     entries: list[dict] = []
     if board_path.exists():
@@ -72,7 +73,8 @@ def upsert(board_path: Path, model: str, metrics: dict, note: str = "") -> list[
             entries = []
 
     entries = [e for e in entries if e.get("model") != model]
-    entries.append({"model": model, "date": date.today().isoformat(), "note": note, **metrics})
+    entries.append({"model": model, "date": date_str or date.today().isoformat(),
+                    "note": note, **metrics})
     entries.sort(key=lambda e: (-(e.get("success_rate") or 0.0),
                                 -(e.get("mean_spl") or 0.0),
                                 e.get("model", "")))
@@ -161,6 +163,8 @@ def main() -> None:
     ap.add_argument("--board", default=None,
                     help="leaderboard.json (default: alongside the report)")
     ap.add_argument("--note", default="", help="short caveat shown under the table")
+    ap.add_argument("--date", default=None,
+                    help="run date for the leaderboard row (default: today)")
     args = ap.parse_args()
 
     input_dir = Path(args.input_dir)
@@ -177,27 +181,46 @@ def main() -> None:
             f"Run `ows verify` on each run directory first."
         )
 
-    entries = upsert(board_path, args.model, metrics, args.note)
+    entries = upsert(board_path, args.model, metrics, args.note, args.date)
+    date_str = args.date or date.today().isoformat()
+    slug = args.model.replace("/", "-").replace(":", "-").replace(" ", "-")
 
+    # --- per-model detail report: By Task / By Capability / Per Run ---
     detail = generate_report(
         ReportConfig(input_dir=str(input_dir), tasks_dir=args.tasks_dir, format="markdown")
     )
     assert isinstance(detail, str)
     detail = detail.replace(
         "# OpenWorldSandbox Results",
-        f"# OpenWorldSandbox Results\n\nLatest run: **{args.model}**, "
-        f"{date.today().isoformat()}. Cross-model standings are in the "
-        f"[Leaderboard](#leaderboard) at the end of this file.",
+        f"# {args.model} — OpenWorldSandbox Results\n\n"
+        f"Run date: {date_str}. 各模型分数对比见 "
+        f"[baseline_report.md](baseline_report.md) 的 Leaderboard。",
         1,
     )
-
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(
-        f"{detail}\n\n---\n\n{render_leaderboard(entries)}\n", encoding="utf-8"
+    model_report_path = report_path.parent / f"{slug}_report.md"
+    model_report_path.write_text(
+        f"{detail}\n\n---\n\n### Metric definitions\n\n{METRIC_GLOSSARY}\n",
+        encoding="utf-8",
     )
 
-    print(f"Leaderboard updated: {board_path}")
-    print(f"Report written:      {report_path}")
+    # --- baseline report: cross-model leaderboard only ---
+    model_links = ", ".join(
+        f"[{e['model']}]({e['model'].replace('/', '-').replace(':', '-').replace(' ', '-')}_report.md)"
+        for e in entries
+    )
+    baseline = (
+        "# OpenWorldSandbox Baseline\n\n"
+        f"Latest update: **{args.model}**, {date_str}.\n\n"
+        f"各模型明细报告（By Task / By Capability / Per Run）：{model_links}。\n\n"
+        + render_leaderboard(entries)
+        + "\n"
+    )
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(baseline, encoding="utf-8")
+
+    print(f"Leaderboard updated:  {board_path}")
+    print(f"Baseline report:      {report_path}")
+    print(f"Model report:         {model_report_path}")
     print(f"  {args.model}: success={_fmt(metrics['success_rate'], '.1%')} "
           f"spl={_fmt(metrics['mean_spl'], '.3f')} runs={metrics['runs']}")
 

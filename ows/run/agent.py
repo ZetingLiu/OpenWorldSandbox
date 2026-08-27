@@ -17,6 +17,7 @@ from textwrap import dedent
 from typing import Any
 
 from loguru import logger
+import openai
 from openai import AsyncOpenAI
 
 from ows.tools import tools_robust_json_loads, tools_json_save, resolve_llm_config
@@ -452,7 +453,33 @@ async def run_agent(config: AgentConfig) -> dict[str, Any]:
                     "chat_template_kwargs": {"enable_thinking": True},
                 }
 
-            response = await llm_client.chat.completions.create(**kwargs)
+            # Transient API failures (flaky OpenAI-compatible gateways return
+            # intermittent 400/429/5xx for valid requests) must not kill the
+            # whole run. Bounded retries with exponential backoff; successful
+            # requests are unaffected, so per-model scoring is unchanged.
+            for retry in range(3):
+                try:
+                    response = await llm_client.chat.completions.create(**kwargs)
+                    break
+                except (openai.APIConnectionError, openai.APITimeoutError,
+                        openai.RateLimitError) as e:
+                    api_err, retryable = e, True
+                except openai.APIStatusError as e:
+                    api_err, retryable = e, e.status_code in (
+                        400, 408, 429, 500, 502, 503, 504,
+                    )
+                except Exception:
+                    raise
+                if not retryable or retry == 2:
+                    raise api_err
+                delay = 2.0 * (2 ** retry)
+                logger.warning(
+                    f"Iteration {iteration}: transient API error "
+                    f"{type(api_err).__name__} "
+                    f"({getattr(api_err, 'status_code', '?')}); "
+                    f"retry {retry + 1}/2 in {delay:.0f}s"
+                )
+                await asyncio.sleep(delay)
 
             choice = response.choices[0]
             content = choice.message.content or ""
