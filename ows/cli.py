@@ -22,10 +22,16 @@ class TopCmd(str, Enum):
     report = "report"
     sandbox = "sandbox"
     synth = "synth"
+    gen = "gen"
 
 
 class EnvCmd(str, Enum):
     start = "start"
+
+
+class GenCmd(str, Enum):
+    run = "run"
+    report = "report"
 
 
 class SynthCmd(str, Enum):
@@ -71,6 +77,18 @@ def _build_commands() -> dict:
     except ImportError:
         pass
 
+    gen_commands = {}
+    try:
+        from ows.gen.pipeline import Config as GenConfig
+        from ows.gen.report import Config as GenReportConfig
+
+        gen_commands = {
+            GenCmd.run: GenConfig,
+            GenCmd.report: GenReportConfig,
+        }
+    except ImportError:
+        pass
+
     return {
         TopCmd.compile: CompileConfig,
         TopCmd.env: {
@@ -81,6 +99,7 @@ def _build_commands() -> dict:
         TopCmd.report: ReportConfig,
         TopCmd.sandbox: SandboxConfig,
         TopCmd.synth: synth_commands,
+        TopCmd.gen: gen_commands,
     }
 
 
@@ -99,6 +118,8 @@ DISPATCH = {
     (TopCmd.synth, SynthCmd.env): "ows.synth.env",
     (TopCmd.synth, SynthCmd.verifier): "ows.synth.verifier",
     (TopCmd.synth, SynthCmd.all): "ows.synth.pipeline",
+    (TopCmd.gen, GenCmd.run): "ows.gen.pipeline",
+    (TopCmd.gen, GenCmd.report): "ows.gen.report",
 }
 
 
