@@ -21,6 +21,11 @@ outputs/
 *.sqlite
 *.sqlite3
 
+# 数据托管在 HuggingFace（https://huggingface.co/datasets/zetliu2001/OpenWorldSandbox）
+# 仓库只留代码与格式规格文档；本地保留 JSON 副本用于评测，但不进 git。
+data/scenarios/*.json
+data/tasks/**/*.json
+
 # Local-only docs / reference clones (keep on disk, do not push)
 checklist.md
 docs/
