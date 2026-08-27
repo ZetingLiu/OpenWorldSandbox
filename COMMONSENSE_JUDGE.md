@@ -9,13 +9,14 @@ Add these values to the repository `.env`:
 
 ```dotenv
 OWB_COMMONSENSE_JUDGE_ENABLED=true
-OWB_COMMONSENSE_JUDGE_MODEL=deepseek-v4-pro
 OWB_COMMONSENSE_JUDGE_FAIL_CLOSED=true
+OWB_COMMONSENSE_JUDGE_API_BASE_URL=https://api.example.com/v1/
+OWB_COMMONSENSE_JUDGE_API_KEY=
+OWB_COMMONSENSE_JUDGE_MODEL=gpt-5
 ```
 
-The judge uses `OPENAI_BASE_URL` and `OPENAI_API_KEY`. If
-`OWB_COMMONSENSE_JUDGE_MODEL` is omitted, it falls back to
-`AWM_SYN_OVERRIDE_MODEL`.
+If the dedicated URL, key, or model is omitted, the judge falls back to
+`OPENAI_BASE_URL`, `OPENAI_API_KEY`, and `AWM_SYN_OVERRIDE_MODEL`.
 
 `OWB_COMMONSENSE_JUDGE_FAIL_CLOSED=true` rejects a physical action when the
 judge is unavailable or returns an invalid response. Set it to `false` only

@@ -127,8 +127,14 @@ class CommonsenseJudge:
             or os.getenv("AWM_SYN_OVERRIDE_MODEL")
             or ""
         )
-        self.base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
-        self.api_key = os.getenv("OPENAI_API_KEY", "")
+        self.base_url = (
+            os.getenv("OWB_COMMONSENSE_JUDGE_API_BASE_URL")
+            or os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        )
+        self.api_key = (
+            os.getenv("OWB_COMMONSENSE_JUDGE_API_KEY")
+            or os.getenv("OPENAI_API_KEY", "")
+        )
         self.log_path = Path(db_path).resolve().parent / "judge_decisions.jsonl"
         self.client = (
             AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)
