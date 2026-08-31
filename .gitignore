@@ -31,6 +31,11 @@ checklist.md
 docs/
 external/
 
+# 答辩 / 汇报 PPT（与项目代码无关，仅本地保留）
+*.pptx
+scripts/generate_openworldsandbox_pptx.py
+scripts/add_lota_bench_slide.py
+
 # OS / editor
 .DS_Store
 .idea/
